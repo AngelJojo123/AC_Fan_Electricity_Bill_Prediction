@@ -3,10 +3,11 @@ import joblib
 from sklearn.preprocessing import PolynomialFeatures
 
 model=joblib.load("polynomial_regression_electricitybill_prediction_model.pkl")
-st.title("Electricity Bill Prediction Based On AC Units")
+st.title("Electricity Bill Prediction Based On AC and Fan Units")
 ac_units=st.number_input("Enter AC Units : ", min_value=0.0, value=100.0)
+fan_units=st.number_input("Enter Fan Units : ", min_value=0.0, value=100.0)
 if st.button("Predict"):
   poly=PolynomialFeatures()
-  ac_units_poly=poly.fit_transform([[ac_units]])
-  prediction=model.predict(ac_units_poly)
+  X_poly=poly.fit_transform([[ac_units, fan_units]])
+  prediction=model.predict(X_poly)
   st.success(f"Predicted Electricity Bill : {prediction[0]:.2f}")
